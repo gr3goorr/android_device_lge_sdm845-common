@@ -69,7 +69,6 @@ PRODUCT_PACKAGES += \
     android.hardware.audio@6.0-impl \
     android.hardware.bluetooth.audio-impl \
     audio.primary.sdm845 \
-    audio_amplifier.lge \
     liba2dpoffload \
     libbatterylistener \
     libcomprcapture \
@@ -84,6 +83,11 @@ PRODUCT_PACKAGES += \
     libtinycompress \
     libvolumelistener \
     tinymix
+
+ifeq ($(filter judypn,$(DEVICE_NAME)),)
+PRODUCT_PACKAGES += \
+    audio_amplifier.lge
+endif
 
 PRODUCT_PACKAGES += \
     android.hardware.soundtrigger@2.2-impl \
@@ -133,7 +137,7 @@ PRODUCT_PACKAGES += \
     disable_configstore
 
 # DAC
-ifeq ($(filter caymanslm style3lm,$(DEVICE_NAME)),)
+ifeq ($(filter judypn caymanslm style3lm,$(DEVICE_NAME)),)
 PRODUCT_PACKAGES += \
     QuadDACPanel \
     vendor.lge.hardware.audio.dac.control@2.0-service
