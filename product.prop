@@ -10,3 +10,12 @@ ro.lmk.upgrade_pressure=100
 ro.lmk.downgrade_pressure=100
 ro.lmk.kill_heaviest_task=true
 ro.lmk.kill_timeout_ms=100
+
+## use the new psi monitors instead of old vmpressure
+ro.lmk.use_psi=true
+## match activitymanager low swap threshold - prolly good to have userspace all on the same ... page :D
+ro.lmk.swap_free_low_percentage=5
+## yes we're a high-performance device still I guess
+ro.lmk.psi_partial_stall_ms=70
+## real world ratio seems to average over 4, trying 0 resulted in lmkd just not really doing anything and then oom_reaper jumped in
+ro.lmk.swap_compression_ratio=4
