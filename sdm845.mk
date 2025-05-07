@@ -351,6 +351,8 @@ PRODUCT_COPY_FILES += \
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/recovery/root/init.recovery.hardware.rc:$(TARGET_COPY_OUT_RECOVERY)/root/init.recovery.$(DEVICE_NAME).rc
 
+$(call soong_config_set,lineage_recovery,bootloader_message_offset,128)
+
 # Radio
 PRODUCT_PACKAGES += \
     android.hardware.radio@1.4-service.lge
