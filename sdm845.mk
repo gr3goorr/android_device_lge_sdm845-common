@@ -239,8 +239,10 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/keylayout/gpio-keys.kl:$(TARGET_COPY_OUT_VENDOR)/usr/keylayout/gpio-keys.kl
 
 # Light
+ifeq ($(filter judyln,$(DEVICE_NAME)),)
 PRODUCT_PACKAGES += \
     android.hardware.light-service.lineage
+endif
 
 # LiveDisplay
 PRODUCT_PACKAGES += \
