@@ -84,11 +84,6 @@ PRODUCT_PACKAGES += \
     libvolumelistener \
     tinymix
 
-ifeq ($(filter caymanslm judypn,$(DEVICE_NAME)),)
-PRODUCT_PACKAGES += \
-    audio_amplifier.lge
-endif
-
 PRODUCT_PACKAGES += \
     android.hardware.soundtrigger@2.2-impl \
     sound_trigger.primary.sdm845
@@ -135,13 +130,6 @@ PRODUCT_PACKAGES += \
 # ConfigStore
 PRODUCT_PACKAGES += \
     disable_configstore
-
-# DAC
-ifeq ($(filter judypn caymanslm style3lm,$(DEVICE_NAME)),)
-PRODUCT_PACKAGES += \
-    QuadDACPanel \
-    vendor.lge.hardware.audio.dac.control@2.0-service
-endif
 
 # Dalvik
 $(call inherit-product, frameworks/native/build/phone-xhdpi-6144-dalvik-heap.mk)
