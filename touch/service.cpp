@@ -1,46 +1,37 @@
 /*
- * Copyright (C) 2019 The LineageOS Project
+ * Copyright (C) 2019, 2025 The LineageOS Project
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * SPDX-License-Identifier: Apache-2.0
  */
 
-#define LOG_TAG "vendor.lineage.touch@1.0-service.lge_sdm845"
+#define LOG_TAG "vendor.lineage.touch-service.lge_sdm845"
 
 #include <android-base/logging.h>
-#include <hidl/HidlTransportSupport.h>
+#include <android/binder_manager.h>
+#include <android/binder_process.h>
 
 #include "TouchscreenGesture.h"
 
-using ::android::OK;
-using ::android::sp;
 
-using ::vendor::lineage::touch::V1_0::ITouchscreenGesture;
-using ::vendor::lineage::touch::V1_0::implementation::TouchscreenGesture;
+using aidl::vendor::lineage::touch::TouchscreenGesture;
+
 
 int main() {
-    sp<ITouchscreenGesture> gestureService = new TouchscreenGesture();
+    ABinderProcess_setThreadPoolMaxThreadCount(0);
 
-    android::hardware::configureRpcThreadpool(1, true /*callerWillJoin*/);
+    LOG(INFO) << "Lineage Touch HAL service (AIDL) for lge_sdm845 is starting.";
 
-    if (gestureService->registerAsService() != OK) {
-        LOG(ERROR) << "Cannot register touchscreen gesture HAL service.";
-        return 1;
-    }
+    
+    std::shared_ptr<TouchscreenGesture> tg = ndk::SharedRefBase::make<TouchscreenGesture>();
+  
+    const std::string tgInstance = std::string() + TouchscreenGesture::descriptor + "/default";
+    binder_status_t status = AServiceManager_addService(tg->asBinder().get(), tgInstance.c_str());
+    CHECK_EQ(status, STATUS_OK) << "Failed to register TouchscreenGesture HAL instance";
 
-    LOG(INFO) << "Touchscreen HAL service ready.";
+    LOG(INFO) << "Lineage Touch HAL service (AIDL) for lge_sdm845 started successfully.";
+    ABinderProcess_joinThreadPool();
 
-    android::hardware::joinRpcThreadpool();
 
-    LOG(ERROR) << "Touchscreen HAL service failed to join thread pool.";
-    return 1;
+    LOG(ERROR) << "Lineage Touch HAL service (AIDL) for lge_sdm845 somehow exited!";
+    return EXIT_FAILURE;
 }

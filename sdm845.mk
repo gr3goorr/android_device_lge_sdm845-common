@@ -360,7 +360,7 @@ PRODUCT_COPY_FILES += \
 
 # Touch
 PRODUCT_PACKAGES += \
-    vendor.lineage.touch@1.0-service.lge_sdm845
+    vendor.lineage.touch-service.lge_sdm845
 
 # USB
 PRODUCT_PACKAGES += \
