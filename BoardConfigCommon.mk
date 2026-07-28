@@ -137,6 +137,9 @@ TARGET_USERIMAGES_USE_F2FS := true
 # RIL
 ENABLE_VENDOR_RIL_SERVICE := true
 
+# Selinux
+SELINUX_IGNORE_NEVERALLOWS := true
+
 # Sepolicy
 include device/qcom/sepolicy_vndr/SEPolicy.mk
 include hardware/lge/sepolicy/SEPolicy.mk
