@@ -1,0 +1,21 @@
+//
+// SPDX-FileCopyrightText: 2026 The LineageOS Project
+// SPDX-License-Identifier: Apache-2.0
+//
+// Namespace guard for hardware/qcom-caf/sdm845.
+//
+// lineage-24.0 dropped the sdm845 entries from snippets/lineage.xml, including
+// the os_pickup_qssi.bp linkfile that used to create
+// hardware/qcom-caf/sdm845/Android.bp. Without it Soong fails with
+// "namespace hardware/qcom-caf/sdm845 does not exist", since both vendor
+// Android.bp files import that namespace.
+//
+// The local manifest links this file to hardware/qcom-caf/sdm845/Android.bp.
+//
+
+soong_namespace {
+    imports: [
+        "vendor/qcom/opensource/commonsys-intf/display",
+        "vendor/qcom/opensource/display",
+    ],
+}
