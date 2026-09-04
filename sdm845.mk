@@ -50,7 +50,7 @@ $(call soong_config_set_bool,QTI_GPT_UTILS,USE_BSG_FRAMEWORK,false)
 AB_OTA_POSTINSTALL_CONFIG += \
     RUN_POSTINSTALL_system=true \
     POSTINSTALL_PATH_system=system/bin/otapreopt_script \
-    FILESYSTEM_TYPE_system=ext4 \
+    FILESYSTEM_TYPE_system=erofs \
     POSTINSTALL_OPTIONAL_system=true
 
 # The following modules are included in debuggable builds only.
