@@ -103,7 +103,10 @@ BOARD_KERNEL_CMDLINE += swiotlb=2048 androidboot.configfs=true
 BOARD_KERNEL_CMDLINE += androidboot.usbcontroller=a600000.dwc3
 BOARD_KERNEL_CMDLINE += loop.max_part=7
 BOARD_KERNEL_CMDLINE += androidboot.boot_devices=soc/1d84000.ufshc
+ifneq ($(filter userdebug eng,$(TARGET_BUILD_VARIANT)),)
+# Temporary Android 17 bring-up setting; keep user builds enforcing.
 BOARD_KERNEL_CMDLINE += androidboot.selinux=permissive
+endif
 BOARD_KERNEL_BASE := 0x00000000
 BOARD_KERNEL_PAGESIZE := 4096
 BOARD_KERNEL_SEPARATED_DTBO := true
@@ -138,8 +141,10 @@ TARGET_USERIMAGES_USE_F2FS := true
 # RIL
 ENABLE_VENDOR_RIL_SERVICE := true
 
-# Selinux
+# Temporary Android 17 bring-up setting; retain neverallow checks in user builds.
+ifneq ($(filter userdebug eng,$(TARGET_BUILD_VARIANT)),)
 SELINUX_IGNORE_NEVERALLOWS := true
+endif
 
 # Sepolicy
 include device/qcom/sepolicy_vndr/SEPolicy.mk
