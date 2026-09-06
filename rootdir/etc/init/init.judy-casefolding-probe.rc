@@ -1,0 +1,29 @@
+# Temporary Android 17 bring-up probe. Delete once the boot hang is understood.
+#
+# post-fs-data in system/etc/init/hw/init.rc does:
+#
+#     restorecon /data/media
+#     start casefolding_remover
+#     wait_for_prop ro.casefolding.adjusted 1
+#
+# wait_for_prop has no timeout. /system/bin/casefolding_remover drives the
+# FS_CASEFOLD_FL ioctl on /data/media, and 4.9 has no casefolding support at
+# all: no CONFIG_UNICODE, and neither ext4 nor f2fs grew the flag before 5.2
+# and 5.4. If the tool errors out instead of reporting nothing to do, it never
+# sets the property and init blocks in post-fs-data for ever. No zygote, no
+# boot animation, the bootloader splash stays on screen and only recovery is
+# reachable. Android 16 ran the same operation as a plain exec whose failure
+# was ignored, which is why it boots.
+#
+# Claiming the property first makes that wait return immediately. It is
+# read-only, so the first writer wins.
+#
+# post-fs is the trigger immediately before post-fs-data and runs well after
+# every /vendor/etc/init file has been parsed, so the ordering is safe.
+#
+# Caveat: plat_sepolicy grants set on casefolding_status_prop only to the
+# casefolding_remover domain, so this needs a permissive build to take effect.
+# It is a diagnostic, not a fix.
+
+on post-fs
+    setprop ro.casefolding.adjusted 1
