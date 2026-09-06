@@ -114,6 +114,10 @@ TARGET_KERNEL_ARCH := arm64
 BOARD_KERNEL_IMAGE_NAME := Image.gz-dtb
 TARGET_KERNEL_SOURCE := kernel/lge/sdm845
 
+# Linux 4.9 sign-file needs OpenSSL CMS for SHA-512 module signatures.
+# Use host OpenSSL only for the signing helpers, not for the target kernel.
+TARGET_KERNEL_ADDITIONAL_FLAGS += LGE_USE_HOST_OPENSSL=true
+
 # Malloc
 MALLOC_SVELTE := true
 MALLOC_SVELTE_FOR_LIBC32 := true
